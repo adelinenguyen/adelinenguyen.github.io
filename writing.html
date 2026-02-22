@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adeline Nguyen — Writing</title>
+  <meta name="description" content="Writing on performance marketing, full-funnel strategy, and what actually works.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100;0,9..144,200;0,9..144,300;1,9..144,100;1,9..144,200;1,9..144,300&family=DM+Sans:ital,wght@0,200;0,300;0,400;1,200&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════
+       TOKENS — dark default
+    ═══════════════════════════════════════════ */
+    :root {
+      --ink:     #07090c;
+      --deep:    #0c0f0a;
+      --mist:    #d5d1e3;
+      --dim:     rgba(213,209,227,0.62);
+      --ghost:   rgba(213,209,227,0.05);
+      --plum:    #7a3d6c;
+      --plum-hi: #9b4e88;
+      --sage:    #5a7254;
+      --bone:    #ece9e1;
+      --serif:   'Fraunces', serif;
+      --sans:    'DM Sans', sans-serif;
+      --mono:    'JetBrains Mono', monospace;
+      --sidebar: 280px;
+    }
+
+    /* ═══════════════════════════════════════════
+       LIGHT MODE
+    ═══════════════════════════════════════════ */
+    html.light {
+      --ink:     #f5f2ee;
+      --deep:    #ede9e3;
+      --mist:    #2c2830;
+      --dim:     rgba(44,40,48,0.68);
+      --ghost:   rgba(44,40,48,0.04);
+      --plum:    #7a3d6c;
+      --plum-hi: #9b4e88;
+      --sage:    #4a6244;
+      --bone:    #1a1720;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ink);
+      color: var(--mist);
+      font-family: var(--sans);
+      font-weight: 300;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.4s, color 0.4s;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    html.large { font-size: 112%; }
+
+    /* ═══════════════════════════════════════════
+       GRAIN
+    ═══════════════════════════════════════════ */
+    .grain {
+      position: fixed; inset: 0; z-index: 800;
+      pointer-events: none; opacity: 0.022;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ═══════════════════════════════════════════
+       PROGRESS
+    ═══════════════════════════════════════════ */
+    #prog {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 1px; z-index: 901;
+      background: var(--plum);
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 0.06s linear;
+    }
+
+    /* ═══════════════════════════════════════════
+       LAYOUT
+    ═══════════════════════════════════════════ */
+    .layout {
+      min-height: 100vh;
+    }
+
+    /* ═══════════════════════════════════════════
+       SIDEBAR
+    ═══════════════════════════════════════════ */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      width: var(--sidebar);
+      border-right: 1px solid rgba(213,209,227,0.06);
+      display: flex;
+      flex-direction: column;
+      padding: 2.8rem 0 2rem;
+      overflow-y: auto;
+      z-index: 100;
+      background: var(--ink);
+      transition: background 0.4s, border-color 0.4s;
+    }
+    html.light .sidebar { border-right-color: rgba(44,40,48,0.08); }
+
+    .sidebar-top {
+      padding: 0 2rem 2.4rem;
+      border-bottom: 1px solid rgba(213,209,227,0.06);
+      margin-bottom: 1.8rem;
+    }
+    html.light .sidebar-top { border-bottom-color: rgba(44,40,48,0.08); }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(213,209,227,0.38);
+      margin-bottom: 1.8rem;
+      transition: color 0.25s;
+    }
+    html.light .back-link { color: rgba(44,40,48,0.42); }
+    .back-link:hover { color: var(--plum-hi); }
+    .back-arrow { transition: transform 0.25s; }
+    .back-link:hover .back-arrow { transform: translateX(-3px); }
+
+    .sidebar-author {
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      font-weight: 200;
+      color: var(--bone);
+      letter-spacing: 0.04em;
+      margin-bottom: 0.3rem;
+    }
+    .sidebar-sub {
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(213,209,227,0.38);
+    }
+    html.light .sidebar-sub { color: rgba(44,40,48,0.42); }
+
+    /* Post list */
+    .post-list {
+      flex: 1;
+      padding: 0 0 2rem;
+    }
+    .post-list-label {
+      font-family: var(--mono);
+      font-size: 0.44rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(213,209,227,0.28);
+      padding: 0 2rem 1rem;
+      display: block;
+    }
+    html.light .post-list-label { color: rgba(44,40,48,0.32); }
+
+    .post-item {
+      display: block;
+      padding: 0.85rem 2rem;
+      border-left: 2px solid transparent;
+      transition: border-color 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+    .post-item:hover { background: rgba(122,61,108,0.06); }
+    .post-item.active {
+      border-left-color: var(--plum);
+      background: rgba(122,61,108,0.08);
+    }
+    html.light .post-item:hover { background: rgba(122,61,108,0.05); }
+    html.light .post-item.active { background: rgba(122,61,108,0.07); }
+
+    .post-item-title {
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: var(--mist);
+      line-height: 1.4;
+      margin-bottom: 0.2rem;
+      transition: color 0.2s;
+    }
+    .post-item.active .post-item-title { color: var(--bone); font-weight: 400; }
+    .post-item-date {
+      font-family: var(--mono);
+      font-size: 0.44rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(213,209,227,0.3);
+    }
+    html.light .post-item-date { color: rgba(44,40,48,0.35); }
+
+    /* Sidebar footer controls */
+    .sidebar-controls {
+      padding: 1.6rem 2rem 0;
+      border-top: 1px solid rgba(213,209,227,0.06);
+      display: flex;
+      gap: 0.6rem;
+    }
+    html.light .sidebar-controls { border-top-color: rgba(44,40,48,0.08); }
+
+    .ctrl-btn {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(213,209,227,0.14);
+      background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.25s, background 0.25s, transform 0.3s;
+      color: rgba(213,209,227,0.45);
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.04em;
+      position: relative;
+    }
+    html.light .ctrl-btn { border-color: rgba(44,40,48,0.14); color: rgba(44,40,48,0.45); }
+    .ctrl-btn:hover { border-color: var(--plum); background: rgba(122,61,108,0.08); color: var(--mist); transform: scale(1.08); }
+    .ctrl-btn svg { width: 13px; height: 13px; position: absolute; transition: opacity 0.3s, transform 0.4s; }
+    .ctrl-btn .icon-moon { opacity: 1; }
+    .ctrl-btn .icon-sun  { opacity: 0; transform: rotate(90deg); }
+    html.light .ctrl-btn .icon-moon { opacity: 0; transform: rotate(-90deg); }
+    html.light .ctrl-btn .icon-sun  { opacity: 1; transform: rotate(0deg); }
+
+    /* ═══════════════════════════════════════════
+       CONTENT AREA
+    ═══════════════════════════════════════════ */
+    .content {
+      margin-left: var(--sidebar);
+      padding: 5rem 6vw 8rem 5vw;
+      min-width: 0;
+    }
+
+    /* Placeholder / welcome state */
+    .welcome {
+      padding-top: 3rem;
+      opacity: 0;
+      animation: fadeup 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
+    }
+    .welcome-tag {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--plum);
+      margin-bottom: 2.5rem;
+      display: block;
+    }
+    .welcome-title {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 4vw, 3.8rem);
+      font-weight: 100;
+      line-height: 1.05;
+      color: var(--bone);
+      margin-bottom: 1.8rem;
+    }
+    .welcome-title em { font-style: italic; color: rgba(213,209,227,0.4); }
+    html.light .welcome-title em { color: rgba(44,40,48,0.4); }
+    .welcome-body {
+      font-size: 0.9rem;
+      line-height: 1.9;
+      color: var(--dim);
+      max-width: 56ch;
+    }
+
+    /* Article */
+    .article {
+      display: none;
+    }
+    .article.visible {
+      display: block;
+      animation: fadeup 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin-bottom: 3.5rem;
+      padding-bottom: 1.8rem;
+      border-bottom: 1px solid rgba(213,209,227,0.07);
+    }
+    html.light .article-meta { border-bottom-color: rgba(44,40,48,0.09); }
+    .article-tag {
+      font-family: var(--mono);
+      font-size: 0.46rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--plum);
+    }
+    .article-date {
+      font-family: var(--mono);
+      font-size: 0.46rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(213,209,227,0.38);
+    }
+    html.light .article-date { color: rgba(44,40,48,0.42); }
+    .article-read {
+      font-family: var(--mono);
+      font-size: 0.46rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(213,209,227,0.28);
+      margin-left: auto;
+    }
+    html.light .article-read { color: rgba(44,40,48,0.32); }
+
+    .article-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 3.8vw, 3.4rem);
+      font-weight: 100;
+      line-height: 1.06;
+      color: var(--bone);
+      margin-bottom: 2.8rem;
+      letter-spacing: -0.01em;
+    }
+
+    .article-body {
+      font-size: 0.95rem;
+      line-height: 2.0;
+      color: var(--dim);
+    }
+    .article-body p { margin-bottom: 1.6rem; }
+    .article-body p:last-child { margin-bottom: 0; }
+    .article-body strong { color: var(--bone); font-weight: 400; }
+    .article-body em { font-style: italic; }
+    .article-body h2 {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 200;
+      color: var(--bone);
+      margin: 3rem 0 1.2rem;
+      line-height: 1.2;
+    }
+    .article-body blockquote {
+      border-left: 2px solid var(--plum);
+      padding-left: 1.4rem;
+      margin: 2rem 0;
+      color: rgba(213,209,227,0.72);
+      font-style: italic;
+    }
+    html.light .article-body blockquote { color: rgba(44,40,48,0.65); }
+
+    /* ═══════════════════════════════════════════
+       KEYFRAMES
+    ═══════════════════════════════════════════ */
+    @keyframes fadeup {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════ */
+    .site-footer {
+      margin-left: var(--sidebar);
+      padding: 2rem 6vw 2rem 5vw;
+      border-top: 1px solid rgba(213,209,227,0.06);
+      font-family: var(--mono);
+      font-size: 0.44rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(213,209,227,0.28);
+    }
+    html.light .site-footer { border-top-color: rgba(44,40,48,0.08); color: rgba(44,40,48,0.32); }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════ */
+
+    /* Shrink sidebar on mid screens */
+    @media (max-width: 1200px) {
+      :root { --sidebar: 220px; }
+    }
+
+    /* Collapse sidebar above article on smaller screens */
+    @media (max-width: 1024px) {
+      :root { --sidebar: 100%; }
+      .layout { grid-template-columns: 1fr; }
+      .sidebar {
+        position: relative;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid rgba(213,209,227,0.06);
+        padding-bottom: 1.2rem;
+      }
+      .content { margin-left: 0; width: 100%; padding: 3rem 6vw 6rem; }
+      .site-footer { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+  <div id="prog"></div>
+
+  <div class="layout">
+
+    <!-- ── SIDEBAR ──────────────────────────── -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <a href="site.html" class="back-link">
+          <span class="back-arrow">←</span>
+          <span>Back</span>
+        </a>
+        <div class="sidebar-author">Adeline Nguyen</div>
+        <div class="sidebar-sub">Writing on marketing</div>
+      </div>
+
+      <nav class="post-list">
+        <span class="post-list-label">All posts</span>
+
+        <a class="post-item active" data-post="0">
+          <div class="post-item-title">Why most attribution models lie to you</div>
+          <div class="post-item-date">Feb 2026</div>
+        </a>
+        <a class="post-item" data-post="1">
+          <div class="post-item-title">The case for boring channels</div>
+          <div class="post-item-date">Jan 2026</div>
+        </a>
+        <a class="post-item" data-post="2">
+          <div class="post-item-title">What regulated industries taught me about creative risk</div>
+          <div class="post-item-date">Dec 2025</div>
+        </a>
+        <a class="post-item" data-post="3">
+          <div class="post-item-title">How to brief a programmatic campaign that finance will actually fund</div>
+          <div class="post-item-date">Nov 2025</div>
+        </a>
+        <a class="post-item" data-post="4">
+          <div class="post-item-title">Full-funnel is not a channel mix. It's a way of thinking.</div>
+          <div class="post-item-date">Oct 2025</div>
+        </a>
+        <a class="post-item" data-post="5">
+          <div class="post-item-title">The metric that never lies: revenue per visitor</div>
+          <div class="post-item-date">Sep 2025</div>
+        </a>
+      </nav>
+
+      <div class="sidebar-controls">
+        <button class="ctrl-btn" id="theme-toggle" aria-label="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="ctrl-btn" id="font-toggle" aria-label="Toggle font size" style="font-size:0.55rem; letter-spacing:0.02em;">Aa</button>
+      </div>
+    </aside>
+
+    <!-- ── CONTENT ───────────────────────────── -->
+    <main class="content">
+
+      <!-- Post 0 -->
+      <article class="article visible" data-post="0">
+        <div class="article-meta">
+          <span class="article-tag">Performance</span>
+          <span class="article-date">February 2026</span>
+          <span class="article-read">5 min read</span>
+        </div>
+        <h1 class="article-title">Why most attribution models lie to you</h1>
+        <div class="article-body">
+          <p>Every attribution model is a story. Last-click tells one story. First-click tells another. Data-driven tells a third — one that sounds more rigorous because it's produced by an algorithm, but is still built on assumptions your vendor chose for you.</p>
+          <p>The problem isn't the models. The problem is that we treat them as truth rather than as a lens. When a channel looks good in the model, it gets more budget. When it looks bad, it gets cut. We optimise to the model rather than to the outcome — and over time, the model and reality drift apart.</p>
+          <h2>What I've found that actually works</h2>
+          <p>The most useful thing I've done with attribution is run incrementality tests alongside whatever model is in place. Not instead of it — alongside it. The model tells you what the data shows. The incrementality test tells you what would have happened without the spend. The gap between those two numbers is where the truth lives.</p>
+          <p><strong>Holdout groups are uncomfortable</strong> because they mean letting some customers convert without being touched by your best campaigns. The business cost of that feels real. The cost of optimising to a broken model for years feels invisible — until you cut a channel that was holding everything else together.</p>
+          <blockquote>Attribution tells you where credit was assigned. Incrementality tells you where value was created. They are not the same thing.</blockquote>
+          <p>If you're managing seven-figure budgets and still relying solely on platform-reported attribution, you're flying with instruments you haven't calibrated. Start small — one channel, one holdout, one quarter. The result will change how you look at your whole account.</p>
+        </div>
+      </article>
+
+      <!-- Post 1 -->
+      <article class="article" data-post="1">
+        <div class="article-meta">
+          <span class="article-tag">Strategy</span>
+          <span class="article-date">January 2026</span>
+          <span class="article-read">4 min read</span>
+        </div>
+        <h1 class="article-title">The case for boring channels</h1>
+        <div class="article-body">
+          <p>Everyone wants to be on the channel that's growing. TikTok a few years ago. Whatever's next now. There's a logic to it — early movers get cheap reach before the auction fills up. But most brands aren't early movers. They're followers who arrive after the CPMs have already risen, when the format is mature and the creative advantage has evaporated.</p>
+          <p><strong>Boring channels — paid search, email, remarketing — have compounding advantages</strong> that shiny channels rarely do. The data is richer. The intent signal is clearer. The infrastructure is more sophisticated. And because everyone is chasing the new thing, the incumbents are often underpriced relative to their actual performance.</p>
+          <h2>This isn't an argument against testing</h2>
+          <p>Test new channels. Allocate 10–15% of budget to experimentation. But don't mistake novelty for opportunity. The question isn't whether a channel is exciting — it's whether it can move revenue at a cost your business can sustain.</p>
+          <p>I've seen brands abandon profitable search campaigns to chase social reach, then spend two years trying to rebuild the commercial infrastructure they dismantled. The boring channel didn't fail them. The planning horizon did.</p>
+        </div>
+      </article>
+
+      <!-- Post 2 -->
+      <article class="article" data-post="2">
+        <div class="article-meta">
+          <span class="article-tag">Creative</span>
+          <span class="article-date">December 2025</span>
+          <span class="article-read">6 min read</span>
+        </div>
+        <h1 class="article-title">What regulated industries taught me about creative risk</h1>
+        <div class="article-body">
+          <p>Spend enough time running campaigns for financial services, pharma, or government clients and you learn something counterintuitive: constraints make you more creative, not less.</p>
+          <p>When you can't make bold claims, you have to be precise. When you can't use certain words, you find better ones. When legal review will kill anything vague, you write tighter briefs. The discipline that compliance demands bleeds into everything — the creative, the targeting, the measurement.</p>
+          <h2>The specific skill is brevity under pressure</h2>
+          <p><strong>You have less room to be mediocre.</strong> A generic FMCG campaign can get away with fuzzy messaging because the category is low-stakes. A financial services ad that's unclear about what it's actually offering will get pulled — and rightly so. The clarity you're forced into tends to perform better even before you account for compliance.</p>
+          <p>I now apply that same standard to every brief I write, regulated or not. What is the one thing this needs to communicate? What would make a thoughtful person reject it? Answer those two questions honestly before you start, and most of the creative problems solve themselves.</p>
+        </div>
+      </article>
+
+      <!-- Post 3 -->
+      <article class="article" data-post="3">
+        <div class="article-meta">
+          <span class="article-tag">Programmatic</span>
+          <span class="article-date">November 2025</span>
+          <span class="article-read">5 min read</span>
+        </div>
+        <h1 class="article-title">How to brief a programmatic campaign that finance will actually fund</h1>
+        <div class="article-body">
+          <p>The briefing problem is almost always a translation problem. Marketing thinks in reach, frequency, and brand safety. Finance thinks in cost per acquisition, payback period, and incremental revenue. The campaign that gets funded is the one that speaks finance's language without losing the strategic intent of the marketing one.</p>
+          <p>Here's the structure I use. Start with the commercial objective — not "increase brand awareness" but "acquire 400 new customers at a CPA under $X with a 6-month LTV of $Y." Then work backwards to the media strategy. Why programmatic? Because the audience data allows us to suppress existing customers, concentrate budget against highest-intent segments, and vary creative by funnel stage — all of which compress CAC.</p>
+          <h2>Numbers finance wants to see</h2>
+          <p><strong>Historical CPA by channel.</strong> Forecasted volume at target CPA. Sensitivity analysis — what happens to cost if volume target rises 30%? What's the floor on CPA given audience size? These aren't complex to produce and they signal that you've thought about risk the same way finance has.</p>
+          <p>A brief that opens with audience strategy will get questioned. A brief that opens with revenue targets and works backwards to audience strategy will get funded. Same campaign. Different entry point.</p>
+        </div>
+      </article>
+
+      <!-- Post 4 -->
+      <article class="article" data-post="4">
+        <div class="article-meta">
+          <span class="article-tag">Strategy</span>
+          <span class="article-date">October 2025</span>
+          <span class="article-read">4 min read</span>
+        </div>
+        <h1 class="article-title">Full-funnel is not a channel mix. It's a way of thinking.</h1>
+        <div class="article-body">
+          <p>The phrase "full-funnel" has been so thoroughly absorbed into marketing vocabulary that it's nearly meaningless now. Agencies use it to sell more channels. Platforms use it to justify broader spend. It's become a euphemism for "spend more everywhere" rather than what it actually means.</p>
+          <p>Full-funnel thinking is about understanding the causal chain between a customer's first exposure to a brand and the moment they buy. What breaks that chain? Where do people drop off, and why? What would shorten the journey without sacrificing the quality of the customer you're acquiring?</p>
+          <h2>The test</h2>
+          <p><strong>If you can't describe what changes at the top of your funnel and trace how that flows through to revenue, you don't have a full-funnel strategy.</strong> You have a collection of campaigns running simultaneously and calling it one.</p>
+          <p>The discipline I try to apply is: for every piece of activity, I want to know the counterfactual. If we didn't run this, what would have been different downstream? If the answer is "nothing much," the activity is decorative. If the answer requires careful thought, it's probably doing real work.</p>
+        </div>
+      </article>
+
+      <!-- Post 5 -->
+      <article class="article" data-post="5">
+        <div class="article-meta">
+          <span class="article-tag">Analytics</span>
+          <span class="article-date">September 2025</span>
+          <span class="article-read">3 min read</span>
+        </div>
+        <h1 class="article-title">The metric that never lies: revenue per visitor</h1>
+        <div class="article-body">
+          <p>Every channel has its vanity metric. Search has Quality Score. Display has viewability. Social has engagement rate. These metrics matter at the operational level — they help you diagnose what's working inside a channel. But they're terrible for comparing across channels, because they're not denominated in the same currency as business outcomes.</p>
+          <p>Revenue per visitor strips that away. It doesn't care where the visitor came from, what the CPM was, or whether the campaign won an award. It asks: did this person spend money, and how much? Applied consistently across channels, it produces a ranking that's hard to argue with.</p>
+          <h2>The objections are usually valid but solvable</h2>
+          <p><strong>"Paid search gets unfair credit because intent is higher."</strong> True. Segment by new vs. returning visitors. Run the analysis on new visitors only. If search still wins, it's probably earning it.</p>
+          <p>"We can't track revenue from display." Fix the tracking before you run the campaign. If you can't measure the outcome, you can't justify the spend — and eventually, you won't be able to defend it when someone asks. Revenue per visitor is blunt. That's the point.</p>
+        </div>
+      </article>
+
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    © 2026 Adeline Nguyen · All rights reserved · <a href="site.html" style="color:inherit;">adelinenguyen.github.io</a>
+  </footer>
+
+  <script>
+    /* ── THEME ───────────────────────────────── */
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') html.classList.add('light');
+    if (localStorage.getItem('largeText') === '1') html.classList.add('large');
+
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const isLight = html.classList.toggle('light');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+    document.getElementById('font-toggle').addEventListener('click', () => {
+      const isLarge = html.classList.toggle('large');
+      localStorage.setItem('largeText', isLarge ? '1' : '0');
+    });
+
+    /* ── POST SWITCHING ──────────────────────── */
+    const items    = document.querySelectorAll('.post-item');
+    const articles = document.querySelectorAll('.article');
+
+    items.forEach(item => {
+      item.addEventListener('click', () => {
+        const idx = item.dataset.post;
+
+        // Update sidebar active state
+        items.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+
+        // Hide all, show target
+        articles.forEach(a => {
+          a.classList.remove('visible');
+          a.style.animation = 'none';
+        });
+
+        const target = document.querySelector(`.article[data-post="${idx}"]`);
+        if (target) {
+          // Trigger reflow to restart animation
+          void target.offsetWidth;
+          target.style.animation = '';
+          target.classList.add('visible');
+          // Scroll content area to top
+          document.querySelector('.content').scrollTo({ top: 0, behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+    });
+
+    /* ── PROGRESS BAR ────────────────────────── */
+    const prog = document.getElementById('prog');
+    window.addEventListener('scroll', () => {
+      const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+      prog.style.transform = `scaleX(${Math.min(pct, 1)})`;
+    }, { passive: true });
+  </script>
+</body>
+</html>

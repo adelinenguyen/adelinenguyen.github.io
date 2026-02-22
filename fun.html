@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adeline Nguyen — Fun</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100;0,9..144,200;0,9..144,300;1,9..144,100;1,9..144,200;1,9..144,300&family=DM+Sans:ital,wght@0,200;0,300;0,400;1,200&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:     #07090c;
+      --mist:    #d5d1e3;
+      --dim:     rgba(213,209,227,0.42);
+      --plum:    #7a3d6c;
+      --plum-hi: #9b4e88;
+      --sage:    #5a7254;
+      --bone:    #ece9e1;
+      --serif:   'Fraunces', serif;
+      --sans:    'DM Sans', sans-serif;
+      --mono:    'JetBrains Mono', monospace;
+    }
+    html.light {
+      --ink:     #f5f2ee;
+      --mist:    #2c2830;
+      --dim:     rgba(44,40,48,0.55);
+      --bone:    #1a1720;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--ink);
+      color: var(--mist);
+      font-family: var(--sans);
+      font-weight: 300;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    .wrap {
+      text-align: center;
+      padding: 2rem;
+      opacity: 0;
+      animation: up 1s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--sage);
+      display: block;
+      margin-bottom: 2rem;
+    }
+
+    .headline {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 8vw, 7rem);
+      font-weight: 100;
+      line-height: 1.05;
+      color: var(--bone);
+      margin-bottom: 1.8rem;
+    }
+    .headline em {
+      font-style: italic;
+      color: var(--sage);
+    }
+
+    .sub {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 3rem;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(213,209,227,0.38);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+    html.light .back { color: rgba(44,40,48,0.38); }
+    .back:hover { color: var(--plum-hi); }
+    .back-arrow { transition: transform 0.25s; }
+    .back:hover .back-arrow { transform: translateX(-3px); }
+
+    /* Grain overlay */
+    .grain {
+      position: fixed; inset: 0; z-index: 800;
+      pointer-events: none; opacity: 0.022;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    @keyframes up {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+
+  <div class="wrap">
+    <span class="tag">✦ Coming soon</span>
+    <h1 class="headline">Fun things<br><em>take time.</em></h1>
+
+    <a href="site.html" class="back">
+      <span class="back-arrow">←</span>
+      <span>Back to site</span>
+    </a>
+  </div>
+
+  <script>
+    if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light');
+  </script>
+</body>
+</html>
