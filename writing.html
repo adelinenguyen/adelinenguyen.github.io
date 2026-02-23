@@ -110,7 +110,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       z-index: 100;
       background: var(--ink);
       transition: background 0.4s, border-color 0.4s;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
     }
+    .sidebar::-webkit-scrollbar { display: none; }
+    
     html.light .sidebar { border-right-color: rgba(44,40,48,0.08); }
 
     .sidebar-top {
